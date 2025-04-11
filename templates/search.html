@@ -1,0 +1,38 @@
+{% extends "search_base.html" %}
+
+{% block window %}
+<h4>
+    <span class="rsl">{{query}}</span>
+    <span class="large-text secondary-text">
+        &mdash; {{results|length|number_decline('результат', 'результата', 'результатов')}}
+    </span>
+</h2>
+<ul class="list border">
+{% for lexeme in results %}
+<li style="cursor: auto;">
+    <div class="grid max">
+        <div class="s12 m6 l3">
+            <p class="rsl">{{lexeme.lemma}}</p>
+            {% if lexeme.sources %}
+            {% if lexeme.sources|length == 1 %}
+            <a href="{{lexeme.sources|first}}">Источник: {{lexeme.sources|first|url_root}}</a>
+            {% else %}
+            <details>
+                <summary>Источники&hellip;</summary>
+                <ul class="no-margin">
+                {% for source in lexeme.sources %}
+                    <li><a href="{{source}}">{{source|url_root}}</a></li>
+                {% endfor %}
+                </ul>
+            </details>
+            {% endif %}
+            {% endif %}
+        </div>
+        <div class="s12 m6 l9">
+            <p>{{lexeme.translations|join(', ')}}</p>
+        </div>
+    </div>
+</li>
+{% endfor %}
+</ul>
+{% endblock window %}

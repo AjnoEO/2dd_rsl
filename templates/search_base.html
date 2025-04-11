@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}{% if query %}{{query}} &mdash; {% endif %}2cc РЖЯ{% if not query %} &mdash; двусторонний словарь{% endif %}{% endblock title %}
+
+{% block content %}
+<div class="grid">
+    <div class="m2"></div>
+    <div class="s12 m8 center">
+        <form class="search" data-live="false" id="search" action="/search" accept-charset="UTF-8" method="get">
+            <nav class="no-space">
+                <div class="rsl field max border no-space left-round">
+                    <input type="text" class="keyword rsl" name="query" id="query" value="{{query}}" tabindex="1" lang="ru" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="Введите жест">
+                </div>
+                <button type="submit" class="large right-round" tabindex="2"><i>search</i></button>
+            </nav>
+        </form>
+    </div>
+    <div class="m2"></div>
+</div>
+<div class="medium-space"></div>
+<div class="content">
+    {% block window %}{% endblock window %}
+</div>
+{% endblock content %}

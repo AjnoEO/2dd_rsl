@@ -1,0 +1,31 @@
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @font-face {
+            font-family: "RSL-Font";
+            src: url("https://ajnoeo.github.io/rslfont/RSL_font/symbol_font_for_rsl/rsl-font.ttf");
+        }
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/beercss@3.10.5/dist/cdn/beer.min.css" rel="stylesheet">
+    <script type="module" src="https://cdn.jsdelivr.net/npm/beercss@3.10.5/dist/cdn/beer.min.js"></script>
+    <link rel="stylesheet" href="static/style.css">
+    <title>{% block title %}2cc РЖЯ &mdash; двусторонний словарь{% endblock title %}</title>
+</head>
+<body>
+    <header class="primary">
+        <nav>
+            <div class="max center-align vertical-margin">
+                <h3>2сс РЖЯ &mdash; <span class="rsl">2cc ржя</span></h3>
+                <h5 class="no-margin">Двусторонний словарь русского жестового языка</h5>
+            </div>
+        </nav>
+    </header>
+    <div class="medium-space"></div>
+    <main class="responsive">
+        {% block content %}
+        {% endblock content %}
+    </main>
+</body>
+</html>

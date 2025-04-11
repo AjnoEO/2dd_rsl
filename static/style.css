@@ -1,0 +1,9 @@
+.rsl {
+    font-family: RSL-Font;
+    font-size: x-large !important;
+}
+
+span.rsl, span.asl {
+    vertical-align: text-bottom;
+    font-size: inherit !important;
+}
