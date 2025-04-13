@@ -2,3 +2,6 @@ RSL	Lemma	GrammarMeaning	Russian	Sources	Example_RSL	Example_Russian	Example_sou
 (.)*о/			сказать;говорить;ответить;отвечать	https://spreadthesign.ru/3916 https://signflow.ru/skazat
 (.)*о_9Й0*	(.)*о/	O:мне
 (.)*о/Й/Й	(.)*о/	O:тебе
+(.)."5/			не любить;недолюбливать
+(.)."5/Й/Й	(.)."5/	S:я;O:тебя
+Й/Й".5З9Й0	(.)."5/	S:ты;O:меня

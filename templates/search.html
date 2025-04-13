@@ -6,33 +6,82 @@
     <span class="large-text secondary-text">
         &mdash; {{results|length|number_decline('результат', 'результата', 'результатов')}}
     </span>
-</h2>
-<ul class="list border">
+</h4>
+<div class="vertical-margin">
 {% for lexeme in results %}
-<li style="cursor: auto;">
+    {% if not loop.first -%}
+    <hr class="medium">
+    {%- endif %}
     <div class="grid max">
         <div class="s12 m6 l3">
             <p class="rsl">{{lexeme.lemma}}</p>
-            {% if lexeme.sources %}
-            {% if lexeme.sources|length == 1 %}
-            <a href="{{lexeme.sources|first}}">Источник: {{lexeme.sources|first|url_root}}</a>
-            {% else %}
-            <details>
-                <summary>Источники&hellip;</summary>
-                <ul class="no-margin">
-                {% for source in lexeme.sources %}
-                    <li><a href="{{source}}">{{source|url_root}}</a></li>
-                {% endfor %}
-                </ul>
-            </details>
-            {% endif %}
-            {% endif %}
+            <div>
+                {% if lexeme.sources -%}
+                    {%- if lexeme.sources|length == 1 -%}
+                    <a href="{{lexeme.sources|first}}">Источник: {{lexeme.sources|first|url_root}}</a>
+                    {%- else -%}
+                    <details>
+                        <summary>Источники&hellip;</summary>
+                        <ul class="no-margin">
+                        {%- for source in lexeme.sources %}
+                            <li><a href="{{source}}">{{source|url_root}}</a></li>
+                        {% endfor -%}
+                        </ul>
+                    </details>
+                    {%- endif -%}
+                {%- endif %}
+                {% if lexeme.inflection -%}
+                    <a href="#" data-ui="#inflection{{loop.index}}">Формы&hellip;</a>
+                    <dialog id="inflection{{loop.index}}">
+                        <button class="transparent circle absolute right top small-margin" data-ui="#inflection{{loop.index}}">
+                            <i>close</i>
+                        </button>
+                        <h5>Формы слова <em>{{lexeme.translations|first}}</em> <span class="rsl">{{lexeme.lemma}}</span></h5>
+                        <table class="padding border center">
+                        {% if lexeme.inflection_dim == 1 %}
+                            <tbody>
+                                <thead>
+                                    <th class="min"></th>
+                                    <th></th>
+                                </thead>
+                                {% for row in lexeme.inflection %}
+                                <tr>
+                                    <td><strong>{{row.title}}</strong></td>
+                                    <td class="rsl bottom-padding">{{row.value}}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        {% elif lexeme.inflection_dim == 2 %}
+                            <thead>
+                                <th class="rsl right-align right-padding min">{{lexeme.lemma}}</th>
+                                {% for column in lexeme.inflection_columns %}
+                                <th class="center-align">{{column}}</th>
+                                {% endfor %}
+                            </thead>
+                            <tbody>
+                            {% for row in lexeme.inflection %}
+                                <tr>
+                                    <td class="right-align right-padding min"><strong>{{row.title}}</strong></td>
+                                    {% for value in row.columns %}
+                                        {% if value %}
+                                        <td class="rsl bottom-padding center-align">{{value}}</td>
+                                        {% else %}
+                                        <td class="surface-variant center-align">&mdash;</td>
+                                        {% endif %}
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        {% endif %}
+                        </table>
+                    </dialog>
+                {%- endif %}
+            </div>
         </div>
         <div class="s12 m6 l9">
             <p>{{lexeme.translations|join(', ')}}</p>
         </div>
     </div>
-</li>
 {% endfor %}
-</ul>
+</div>
 {% endblock window %}
