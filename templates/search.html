@@ -41,19 +41,18 @@
                         {% if lexeme.inflection_dim == 1 %}
                             <tbody>
                                 <thead>
-                                    <th class="min"></th>
-                                    <th></th>
+                                    <tr></tr>
                                 </thead>
                                 {% for row in lexeme.inflection %}
                                 <tr>
-                                    <td><strong>{{row.title}}</strong></td>
+                                    <td class="right-align right-padding"><strong>{{row.title}}</strong></td>
                                     <td class="rsl bottom-padding">{{row.value}}</td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
                         {% elif lexeme.inflection_dim == 2 %}
                             <thead>
-                                <th class="rsl right-align right-padding min">{{lexeme.lemma}}</th>
+                                <th class="rsl right-align right-padding">{{lexeme.lemma}}</th>
                                 {% for column in lexeme.inflection_columns %}
                                 <th class="center-align">{{column}}</th>
                                 {% endfor %}
@@ -61,7 +60,7 @@
                             <tbody>
                             {% for row in lexeme.inflection %}
                                 <tr>
-                                    <td class="right-align right-padding min"><strong>{{row.title}}</strong></td>
+                                    <td class="right-align right-padding"><strong>{{row.title}}</strong></td>
                                     {% for value in row.columns %}
                                         {% if value %}
                                         <td class="rsl bottom-padding center-align">{{value}}</td>
