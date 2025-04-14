@@ -1,5 +1,6 @@
 RSL	Lemma	GrammarMeaning	Russian	Sources	Example_RSL	Example_Russian	Example_sources
-(.)*о/			сказать;говорить;ответить;отвечать	https://spreadthesign.ru/3916 https://signflow.ru/skazat
+(.)*о/			сказать;говорить	https://spreadthesign.ru/3916 https://signflow.ru/skazat
+(.)*о/			ответить;отвечать;ответ	ответ=https://spreadthesign.ru/6423 отвечать=https://spreadthesign.ru/1836 https://signflow.ru/otvetit ответ=https://signflow.ru/otvet отвечать=https://signflow.ru/otvechat
 (.)*о_9Й0*	(.)*о/	O:мне
 (.)*о/Й/Й	(.)*о/	O:тебе
 (.)."5/			не любить;недолюбливать

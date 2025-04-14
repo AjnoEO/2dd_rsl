@@ -1,16 +1,24 @@
 import pandas as pd
 import numpy as np
-from .utils import category_values_order
+from .utils import category_values_order, url_root
 
 class UntreatableLexemeException(Exception): ...
 
 class Lexeme:
-    def __init__(self, rows = pd.DataFrame):
-        self.lemma, self.translations, self.sources = \
-            rows[rows["Lemma"].isna() | (rows["RSL"] == rows["Lemma"])].reset_index().loc[0, ["RSL", "Russian", "Sources"]]
-        self.lemma: str
-        self.translations: list[str] = self.translations.split(";")
-        self.sources: list[str] = self.sources.split(" ") if self.sources is not np.nan else []
+    def __init__(self, rows: pd.DataFrame):
+        head = rows[rows["Lemma"].isna() | (rows["RSL"] == rows["Lemma"])]
+        lemma, translations, sources = (head[col] for col in ["RSL", "Russian", "Sources"])
+        self.lemma: str = lemma.iloc[0]
+        self.translations: list[list[str]] = [t.split(";") for t in translations]
+        sources = [
+            tuple(item.split("=", 1)[::-1]) if "=" in item else (item, self.translations[i][0])
+            for i, s in enumerate(sources) if s is not np.nan for item in s.split(" ")
+        ]
+        self.sources: dict[str, list[tuple[str, str]]] = {}
+        for url, translation in sources:
+            self.sources.setdefault(url_root(url), []).append((url, translation))
+        for source, links in self.sources.items():
+            links.sort(key = lambda t: t[1])
         if rows.shape[0] == 1:
             return
         self.inflection: list[dict[str, str | list[str]]] = [] # list of rows: [{"title", "value"}] or [{"title", "values"}]
@@ -52,4 +60,4 @@ class Lexeme:
                     ]
                 })
         else:
-            UntreatableLexemeException("Too many grammatical categories per lexeme")
+            UntreatableLexemeException(f"Too many grammatical categories per lexeme: {self.lemma}")

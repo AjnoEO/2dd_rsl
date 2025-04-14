@@ -1,5 +1,7 @@
 {% extends "search_base.html" %}
 
+
+
 {% block window %}
 <h4>
     <span class="rsl">{{query}}</span>
@@ -18,25 +20,37 @@
             <div>
                 {% if lexeme.sources -%}
                     {%- if lexeme.sources|length == 1 -%}
-                    <a href="{{lexeme.sources|first}}">Источник: {{lexeme.sources|first|url_root}}</a>
+                    <a class="link" href="{{lexeme.sources|first}}">Источник: {{lexeme.sources|first|url_root}}</a>
                     {%- else -%}
                     <details>
-                        <summary>Источники&hellip;</summary>
+                        <summary class="link">Источники&hellip;</summary>
                         <ul class="no-margin">
-                        {%- for source in lexeme.sources %}
-                            <li><a href="{{source}}">{{source|url_root}}</a></li>
+                        {%- for source, urls in lexeme.sources|items %}
+                            <li>
+                                {% if urls|length == 1 -%}<a class="link" href="{{urls|first|first}}" target="_blank" rel="noopener">{{source}}</a>
+                                {%- else -%}
+                                <details>
+                                    <summary class="link">{{source}}&hellip;</summary>
+                                    <ul class="no-margin">
+                                    {%- for url, translation in urls -%}
+                                        <li><a class="link" href="{{url}}" target="_blank" rel="noopener">{{translation}}</a></li>
+                                    {% endfor -%}
+                                    </ul>
+                                </details>
+                                {%- endif %}
+                            </li>
                         {% endfor -%}
                         </ul>
                     </details>
                     {%- endif -%}
                 {%- endif %}
                 {% if lexeme.inflection -%}
-                    <a href="#" data-ui="#inflection{{loop.index}}">Формы&hellip;</a>
+                    <a class="link" href="#" data-ui="#inflection{{loop.index}}">Формы&hellip;</a>
                     <dialog id="inflection{{loop.index}}">
                         <button class="transparent circle absolute right top small-margin" data-ui="#inflection{{loop.index}}">
                             <i>close</i>
                         </button>
-                        <h5>Формы слова <em>{{lexeme.translations|first}}</em> <span class="rsl">{{lexeme.lemma}}</span></h5>
+                        <h5>Формы слова <em>{{lexeme.translations|first|first}}</em> <span class="rsl">{{lexeme.lemma}}</span></h5>
                         <table class="padding border center">
                         {% if lexeme.inflection_dim == 1 %}
                             <tbody>
@@ -78,7 +92,15 @@
             </div>
         </div>
         <div class="s12 m6 l9">
-            <p>{{lexeme.translations|join(', ')}}</p>
+            {% if lexeme.translations|length == 1 %}
+            <p>{{lexeme.translations|first|join(', ')}}</p>
+            {% else %}
+            <ol class="no-margin">
+                {% for translation in lexeme.translations %}
+                <li>{{translation|join(', ')}}</li>
+                {% endfor %}
+            </ol>
+            {% endif %}
         </div>
     </div>
 {% endfor %}

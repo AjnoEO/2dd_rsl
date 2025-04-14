@@ -1,3 +1,5 @@
+import re
+
 def category_values_order(s: str):
     words = set(s.split())
     ORDERED_WORDS = {
@@ -9,3 +11,6 @@ def category_values_order(s: str):
     for i, wordlist in ORDERED_WORDS.items():
         if words & wordlist: return i
     return i + 1
+
+def url_root(s: str):
+    return re.sub(r"https?://|/.+", "", s)
