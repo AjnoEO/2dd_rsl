@@ -32,7 +32,7 @@ def sign_data(sign: str):
             for f in frames:
                 if "l"+c not in f: f["l"+c] = f["r"+c][::-1]
     last_frame = {}
-    frames = [last_frame | f for f in frames]
+    frames = [(last_frame := last_frame | f) for f in frames]
     return frames, timeline
 
 def frame_difference(frame1: dict[str, str], frame2: dict[str, str]):
