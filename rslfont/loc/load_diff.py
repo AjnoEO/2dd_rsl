@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 import numpy as np
+import re
 from ..regexes import HS
 
 LOC_DIFF = pd.read_csv(os.path.join("rslfont", "loc", "diff.tsv"), index_col=0, sep="\t").astype(np.int8)
@@ -8,7 +9,7 @@ LOC_DIFF = pd.read_csv(os.path.join("rslfont", "loc", "diff.tsv"), index_col=0, 
 def uniform_loc(loc: str):
     if not loc: return loc
     if "Й" in loc: return None
-    return loc.replace(HS, 'h')
+    return re.sub(HS, 'h', loc)
 
 def loc_difference(loc1: str, loc2: str):
     """
