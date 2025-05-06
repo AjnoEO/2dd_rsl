@@ -13,13 +13,13 @@ BODYLOC = r"(?:\([.Ё]{,2}Й?[.Ё]{,2}\)|9[.Ё]{,2}(?:Й\.?Й?)?[.Ё]{,2}0|" + f
 # LEFT_HAND = fr"(?:{HS}{ORI}?|{HANDLOC}{HS}?{ORI}?)"
 LEFT_HAND = (
     fr"(?:(?:(?P<lhs>{HS})|(?P<hloc>{HANDLOC_W_HS})|"
-    fr"(?P<hloc>{HANDLOC})(?P<lhs>{HS}))?(?P<lori>{ORI})??(?P<mod>{MOD})?)"
+    fr"(?P<hloc>{HANDLOC})(?P<lhs>{HS}))?(?P<lori>{ORI})??)"
 )
 RIGHT_HAND = fr"(?:(?:(?P<rori>{ORI})?(?:(?P<rhs>{HS}){HANDLOC}?)|(?P<rori>{ORI}))(?P<mod>{MOD})?)"
 
 MOV = fr"(?:{DIR}+|(?:{DIR}*ДД?{DIR}*|[/З\\Щ])(?:\({FING}\))?|\(Д{DIR}\))"
 
-FRAME = fr"(?:{BODYLOC}|{HANDLOC}|{CONT}|{ORI}|{HS}|{MOD})+"
+FRAME = fr"(?:{BODYLOC}|{HANDLOC}|{CONT}|{ORI}|{HS})+{MOD}?"
 TIMELINE = fr"(?:{MOV}({MOV}|{CONT})*)"
 SECOND_HAND = r"(?:09|\)|ЯЯ?)"
 
