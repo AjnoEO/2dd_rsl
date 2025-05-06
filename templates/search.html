@@ -19,8 +19,19 @@
             <p class="rsl">{{lexeme.lemma}}</p>
             <div>
                 {% if lexeme.sources -%}
-                    {%- if lexeme.sources|length == 1 -%}
-                    <a class="link" href="{{lexeme.sources|first}}">Источник: {{lexeme.sources|first|url_root}}</a>
+                    {%- if lexeme.sources.single -%}
+                    <a class="link" href="{{lexeme.sources.url}}">Источник: {{lexeme.sources.root}}</a>
+                    {%- elif lexeme.sources|length == 1 -%}
+                    {%- for source, urls in lexeme.sources|items %}
+                    <details>
+                        <summary class="link">Источник: {{source}}&hellip;</summary>
+                        <ul class="no-margin">
+                        {%- for url, translation in urls -%}
+                            <li><a class="link" href="{{url}}" target="_blank" rel="noopener">{{translation}}</a></li>
+                        {% endfor -%}
+                        </ul>
+                    </details>
+                    {% endfor -%}
                     {%- else -%}
                     <details>
                         <summary class="link">Источники&hellip;</summary>

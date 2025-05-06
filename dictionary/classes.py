@@ -16,9 +16,13 @@ class Lexeme:
         ]
         self.sources: dict[str, list[tuple[str, str]]] = {}
         for url, translation in sources:
-            self.sources.setdefault(url_root(url), []).append((url, translation))
-        for source, links in self.sources.items():
-            links.sort(key = lambda t: t[1])
+            root = url_root(url)
+            self.sources.setdefault(root, []).append((url, translation))
+        if len(self.sources) == 1 and len(self.sources[root]) == 1:
+            self.sources = {"single": True, "root": root, "url": self.sources[root][0][0]}
+        else:
+            for source, links in self.sources.items():
+                links.sort(key = lambda t: t[1])
         if rows.shape[0] == 1:
             return
         self.inflection: list[dict[str, str | list[str]]] = [] # list of rows: [{"title", "value"}] or [{"title", "values"}]
