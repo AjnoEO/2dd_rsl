@@ -1,1 +1,1 @@
-from .diff import sign_difference
+from .diff import sign_data, sign_difference
