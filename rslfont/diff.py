@@ -8,7 +8,7 @@ from .regexes import *
 def sign_data(sign: str):
     two_handed = (re.findall(SECOND_HAND, sign) or [""])[0]
     frames = [parse_frame(f) for f in re.findall(FRAME, sign)]
-    timeline = "".join(re.findall(fr"{FRAME}|{CONT}", sign))
+    timeline = "".join(re.findall(fr"{MOV}|{CONT}", sign))
     comps = ["hs", "ori"]
     if "Я" in two_handed:
         for c in comps:
