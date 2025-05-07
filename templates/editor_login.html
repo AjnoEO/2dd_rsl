@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h5>Войти как редактор</h5>
+<div class="grid">
+    <div class="m2"></div>
+    <div class="s12 m8 center">
+        <form action="#" method="post">
+            <input type="hidden" name="next" value="{{ request.args.get('next', '') }}"/>
+            <div class="center-align">
+                <div class="medium field label border small-margin">
+                    <input type="password" name="password">
+                    <label>Пароль</label>
+                    {% if error %}
+                    <span class="error">{{ error }}</span>
+                    {% endif %}
+                </div>
+                <input class="button no-margin" type="submit" value="Войти">
+            </div>
+        </form>
+    </div>
+    <div class="m2"></div>
+</div>
+{% endblock content %}

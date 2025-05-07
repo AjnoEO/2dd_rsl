@@ -10,16 +10,31 @@
     </style>
     <link href="https://cdn.jsdelivr.net/npm/beercss@3.10.5/dist/cdn/beer.min.css" rel="stylesheet">
     <script type="module" src="https://cdn.jsdelivr.net/npm/beercss@3.10.5/dist/cdn/beer.min.js"></script>
-    <link rel="stylesheet" href="static/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <title>{% block title %}2cc РЖЯ &mdash; двусторонний словарь{% endblock title %}</title>
 </head>
 <body>
     <header class="primary">
         <nav>
+            {% if session.editor -%}
+            <a class="button margin circle transparent" href="{{ url_for('index') }}"><i class="large">home</i></a>
+            {%- endif %}
             <div class="max center-align vertical-margin">
                 <h3>2сс РЖЯ &mdash; <span class="rsl">2cc ржя</span></h3>
                 <h5 class="no-margin">Двусторонний словарь русского жестового языка</h5>
             </div>
+            {% if session.editor -%}
+            {%- with -%}
+                {%- if request.path[:5] == "/edit" -%}
+                    {% set url = url_for('editor_logout') %}
+                    {% set icon = "logout" %}
+                {%- else -%}
+                    {% set url = url_for('edit') %}
+                    {% set icon = "edit" %}
+                {%- endif -%}
+                <a class="button margin circle transparent" href="{{url}}"><i class="large">{{icon}}</i></a>
+            {%- endwith -%}
+            {%- endif %}
         </nav>
     </header>
     <div class="medium-space"></div>
