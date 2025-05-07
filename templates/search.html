@@ -18,10 +18,10 @@
         <div class="s12 m6 l3">
             <p class="rsl">{{lexeme.lemma}}</p>
             <div>
-                <a href="?query={{lexeme.lemma|urlencode}}&exact" class="link">Ссылка на этот результат</a>
+                <div><a href="?query={{lexeme.lemma|urlencode}}&exact" class="link">Ссылка на этот результат</a></div>
                 {% if lexeme.sources -%}
                     {%- if lexeme.sources.single -%}
-                    <a class="link" href="{{lexeme.sources.url}}">Источник: {{lexeme.sources.root}}</a>
+                    <div><a class="link" href="{{lexeme.sources.url}}">Источник: {{lexeme.sources.root}}</a></div>
                     {%- elif lexeme.sources|length == 1 -%}
                     {%- for source, urls in lexeme.sources|items %}
                     <details>
@@ -57,7 +57,7 @@
                     {%- endif -%}
                 {%- endif %}
                 {% if lexeme.inflection -%}
-                    <a class="link" href="#" data-ui="#inflection{{loop.index}}">Формы&hellip;</a>
+                    <div><a class="link" href="#" data-ui="#inflection{{loop.index}}">Формы&hellip;</a></div>
                     <dialog id="inflection{{loop.index}}">
                         <button class="transparent circle absolute right top small-margin" data-ui="#inflection{{loop.index}}">
                             <i>close</i>
