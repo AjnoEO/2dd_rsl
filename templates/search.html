@@ -18,6 +18,7 @@
         <div class="s12 m6 l3">
             <p class="rsl">{{lexeme.lemma}}</p>
             <div>
+                <a href="?query={{lexeme.lemma|urlencode}}&exact" class="link">Ссылка на этот результат</a>
                 {% if lexeme.sources -%}
                     {%- if lexeme.sources.single -%}
                     <a class="link" href="{{lexeme.sources.url}}">Источник: {{lexeme.sources.root}}</a>

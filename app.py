@@ -28,7 +28,8 @@ def index():
 @app.route("/search")
 def search():
     query = request.args.get("query")
+    exact = "exact" in request.args
     if not query:
         return redirect(url_for("index"))
-    return render_template("search.html", query=query, results=d.search_for_lexemes(query))
+    return render_template("search.html", query=query, results=d.search_for_lexemes(query, exact=exact))
 
