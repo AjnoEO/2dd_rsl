@@ -1,8 +1,10 @@
 RSL	Russian	Sources	Example_RSL	Example_Russian	Example_sources	Lemma	GrammarMeaning
-(.)*о/	сказать;говорить	https://spreadthesign.ru/3916 https://signflow.ru/skazat					
-(.)*о/	ответить;отвечать;ответ	ответ=https://spreadthesign.ru/6423 отвечать=https://spreadthesign.ru/1836 https://signflow.ru/otvetit ответ=https://signflow.ru/otvet отвечать=https://signflow.ru/otvechat					
-(.)*о_9Й0*						(.)*о/	O:мне
-(.)*о/Й/Й						(.)*о/	O:тебе
+(.)*=Ёо/	сказать;говорить	https://spreadthesign.ru/3916 https://signflow.ru/skazat					
+(.)*=Ёо/	ответить;отвечать;ответ	ответ=https://spreadthesign.ru/6423 отвечать=https://spreadthesign.ru/1836 https://signflow.ru/otvetit ответ=https://signflow.ru/otvet отвечать=https://signflow.ru/otvechat					
+(.)*=Ёо_9Й0*						(.)*=Ёо/	O:мне
+(.)*=Ёо/Й/Й						(.)*=Ёо/	O:тебе
+(.)*=Ёо/ЙБЙ						(.)*=Ёо/	O:ему (слева)
+(.)*=Ёо/ЙЮЙ						(.)*=Ёо/	O:ему (справа)
 (.)."5/	не любить;недолюбливать						
 (.)."5/Й/Й						(.)."5/	S:я;O:тебя
 Й/Й".5З9Й0						(.)."5/	S:ты;O:меня
@@ -41,11 +43,11 @@ RSL	Russian	Sources	Example_RSL	Example_Russian	Example_sources	Lemma	GrammarMea
 9Ё50".*".а_95.0*3	18;восемнадцать	
 9Ё50".*".а_95.0*8	18;восемнадцать	https://signflow.ru/18
 9Ё50".*".а_95.0*4	19;девятнадцать	https://signflow.ru/19
-=.2__	20;двадцать	https://signflow.ru/20
-=.3__	30;тридцать
-=.8__	30;тридцать	https://signflow.ru/30
-=.4__	40;сорок	https://signflow.ru/40
-=.5__	50;пятьдесят	https://signflow.ru/50
+=Ё2__	20;двадцать	https://signflow.ru/20
+=Ё3__	30;тридцать
+=Ё8__	30;тридцать	https://signflow.ru/30
+=Ё4__	40;сорок	https://signflow.ru/40
+=Ё5__	50;пятьдесят	https://signflow.ru/50
 95.0".ЦЦ=Ё6ББ	60;шестьдесят	https://signflow.ru/60
 95.0".ЦЦ".2ББ	70;семьдесят
 95.0".ЦЦ=Ё7ББ	70;семьдесят
