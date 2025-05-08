@@ -4,7 +4,7 @@ import pandas as pd
 from functools import partial
 
 DICT_PATH = os.path.join("dictionary", "dict.tsv")
-DICT = pd.read_csv(DICT_PATH, sep='\t', quotechar="'")
+DICT = pd.read_csv(DICT_PATH, sep='\t', quotechar="'", dtype="str")
 
 def __format_cell(contents: str, col: str):
     if col == "Edit":
@@ -31,4 +31,4 @@ def dict_html():
     return htmlsoup
 
 def update_dict():
-    DICT.to_csv(DICT_PATH, sep='\t')
+    DICT.to_csv(DICT_PATH, sep='\t', quotechar="'", index=False)

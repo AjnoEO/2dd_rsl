@@ -1,4 +1,4 @@
-from flask import Flask, g, render_template, redirect, url_for, request, session
+from flask import Flask, g, abort, render_template, redirect, url_for, request, session
 import re
 from functools import wraps
 import dictionary as d
@@ -32,6 +32,10 @@ def login_required(f):
         return redirect(url_for('editor_login', next=request.full_path))
     return decorated_function
 
+@app.errorhandler(404)
+def page_not_found(error: Exception):
+    return render_template("error_404.html", error=error), 404
+
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -61,6 +65,29 @@ def editor_login():
     return render_template("editor_login.html", error=error)
 
 @app.route("/edit/logout", methods=["GET", "POST"])
+@login_required
 def editor_logout():
     session.pop("editor")
     return redirect(request.args.get("next") or url_for("index"))
+
+@app.route("/edit/<int:word_index>", methods=["GET", "POST"])
+def edit_word(word_index: int):
+    errors = {}
+    if word_index not in d.DICT.index:
+        abort(404, "Запись в словаре с таким ID не найдена.")
+    if request.method == 'POST':
+        form_dict = {k: v for k, v in request.form.items() if v}
+        d.DICT.loc[word_index] = form_dict
+        d.update_dict()
+        return redirect(url_for("edit_word", word_index=word_index))
+    fieldsets = {
+        "Слово": [("RSL", "РЖЯ"), ("Russian", "Русский"), ("Sources", "Источники")],
+        "Пример": [("Example_RSL", "На РЖЯ"), ("Example_Russian", "На русском"), ("Example_sources", "Источники")],
+        "Грамматика": [("Lemma", "Лемма"), ("GrammarMeaning", "Грамматические значения")]
+    }
+    rsl_fields = ["RSL", "Lemma", "Example_RSL"]
+    current = d.DICT.loc[word_index].dropna()
+    return render_template(
+        "edit_word.html", 
+        word_index=word_index, fieldsets=fieldsets, rsl_fields=rsl_fields, current=current, errors=errors
+    )

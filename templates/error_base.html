@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h5 class="error">Ошибка! <span class="rsl">(Й)к/1 !</span></h5>
+{% block error_description %}
+{% endblock error_description %}
+{% if request.referrer %}
+<p><a class="link" href="{{ request.referrer }}">Назад</a></p>
+{% endif %}
+<p><a class="link" href="{{ url_for('index') }}">Вернуться на главную</a></p>
+{% endblock content %}

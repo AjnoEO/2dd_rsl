@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h5>Редактирование записи в словаре:</h5>
+<form action="{{ url_for('edit_word', word_index=word_index) }}" method="post">
+    {% for fieldset, fieldset_fields in fieldsets|items -%}
+    <fieldset>
+        <legend>{{fieldset}}</legend>
+        <div class="grid">
+        {% for id, label in fieldset_fields -%}
+            <div class="field border label s12 l{{12 // fieldset_fields|length}}">
+                <input
+                    type="text" 
+                    {% if id in rsl_fields %}class="rsl"{% endif %} 
+                    name="{{id}}" 
+                    {% if current[id] %}value="{{current[id]}}"{% endif %} 
+                    autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false"
+                >
+                <label>{{label}}</label>
+            </div>
+        {%- endfor %}
+        </div>
+    </fieldset>
+    {%- endfor %}
+    <div class="top-margin">
+        <input class="button" type="submit" value="Сохранить">
+    </div>
+</form>
+{% endblock content %}

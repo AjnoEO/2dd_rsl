@@ -1,0 +1,20 @@
+{% extends "error_404.html" %}
+
+{% block error_description %}
+<p>
+    <strong>Ошибка 404:</strong>
+    {% if error.args -%}
+        {% if error.args|length == 1 -%}
+            {{error.args|first}}
+        {%- else -%}
+            <ul>
+            {%- for arg in error.args %}
+            <li>{{arg}}</li>
+            {% endfor -%}
+            </ul>
+        {%- endif %}
+    {%- else -%}
+    Страница не найдена
+    {%- endif %}
+</p>
+{% endblock error_description %}
