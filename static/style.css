@@ -1,11 +1,15 @@
-.rsl {
+.rsl, .field>.rsl {
     font-family: RSL-Font;
-    font-size: x-large !important;
+    font-size: x-large;
 }
 
-span.rsl, span.asl {
+.rsl.compact {
+    font-size: large;
+}
+
+:is(h1,h2,h3,h4,h5) > .rsl {
     vertical-align: text-bottom;
-    font-size: inherit !important;
+    font-size: inherit;
 }
 
 /* Themes */
