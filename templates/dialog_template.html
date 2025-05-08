@@ -1,0 +1,10 @@
+<dialog id="{{id}}">
+    <form action="{{action}}" method="{{method|default('post')}}">
+        {% if text or text_html %}<h5>{{title|default("Вы уверены?")}}</h5>{% endif %}
+        <div>{{text_html|safe|default(text)|default(title)}}</div>
+        <nav class="right-align">
+            <button type="button" class="border" data-ui="#{{id}}">{{cancel_text|default("Отмена")}}</button>
+            <button type="submit" class="error">{{confirm_text|default("Подтвердить")}}</button>
+        </nav>
+    </form>
+</dialog>

@@ -4,5 +4,10 @@
 <h5>Данные словаря:</h5>
 <article class="no-round no-padding border large scroll">
     {{ dictionary_html|safe }}
+    <footer class="top-border fill fixed horizontal-padding" style="border-block-start: .0625rem solid var(--outline);min-block-size: 3rem;">
+        <div>
+            <a class="small circle transparent button" href="{{url_for('create_word')}}"><i class="small">add</i></a>
+        </div>
+    </footer>
 </article>
 {% endblock content %}

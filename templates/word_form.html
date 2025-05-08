@@ -1,8 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h5>Редактирование записи в словаре:</h5>
-<form action="{{ url_for('edit_word', word_index=word_index) }}" method="post">
+<h5>{% if current %}Редактирование{% else %}Создание{% endif %} записи в словаре:</h5>
+{% if current %}
+{% set form_action = url_for('edit_word', word_index=word_index) %}
+{% else %}
+{% set form_action = url_for('create_word') %}
+{% endif %}
+<form action="{{form_action}}" method="post">
     {% for fieldset, fieldset_fields in fieldsets|items -%}
     <fieldset>
         <legend>{{fieldset}}</legend>
@@ -13,7 +18,7 @@
                     type="text" 
                     {% if id in rsl_fields %}class="rsl"{% endif %} 
                     name="{{id}}" 
-                    {% if current[id] %}value="{{current[id]}}"{% endif %} 
+                    {% if current and id in current %}value="{{current[id]}}"{% endif %} 
                     autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false"
                 >
                 <label>{{label}}</label>
