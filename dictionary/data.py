@@ -3,6 +3,7 @@ import os
 import pandas as pd
 from flask import render_template, url_for
 from functools import partial
+from rslfont import sign_data
 
 DICT_PATH = os.path.join("dictionary", "dict.tsv")
 DICT = pd.read_csv(DICT_PATH, sep='\t', quotechar="'", dtype="str")
@@ -44,4 +45,10 @@ def dict_html():
     return htmlsoup
 
 def update_dict():
+    for sign in DICT["RSL"]:
+        try:
+            sign_data(sign)
+        except:
+            print(f"!!! Ошибка при анализе жеста {sign}")
+            sign_data(sign, log=True)
     DICT.to_csv(DICT_PATH, sep='\t', quotechar="'", index=False)
