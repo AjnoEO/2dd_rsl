@@ -11,14 +11,20 @@ def sign_data(sign: str, log: bool = False):
     frames = [parse_frame(f) for f in re.findall(FRAME, sign)]
     timeline = "".join(re.findall(fr"{MOV}|{CONT}", sign))
     if log: print(frames, timeline)
-    comps = ["hs", "ori"]
-    for c in comps:
+    hand_comps = ["hs", "ori"]
+    def fill_in_comp(comp: str):
         last = None
         for f in frames:
-            if "r"+c in f: last = f["r"+c]
-            elif last: f["r"+c] = last
+            if comp in f: last = f[comp]
+            elif last: f[comp] = last
+    def fill_in(hand: str):
+        for c in hand_comps:
+            fill_in_comp(hand+c)
+    fill_in_comp("bloc")
+    fill_in_comp("hloc")
+    fill_in("r")
     if "Я" in two_handed:
-        for c in comps:
+        for c in hand_comps:
             r = {f["r"+c] for f in frames}
             if len(r) == 1:
                 r = r.pop()[::-1]
@@ -34,17 +40,32 @@ def sign_data(sign: str, log: bool = False):
                 if f["r"+c] == r1: f["l"+c] = l2
                 else: f["l"+c] = l1
     elif two_handed == "09":
-        for c in comps:
+        for c in hand_comps:
             for f in frames:
                 if "l"+c not in f and "r"+c in f: f["l"+c] = f["r"+c][::-1]
-    last_frame = {}
-    frames = [(last_frame := last_frame | f) for f in frames]
+    fill_in("l")
+    # last_frame = {}
+    # frames = [(last_frame := last_frame | f) for f in frames]
     return frames, timeline
 
-def frame_difference(frame1: dict[str, str], frame2: dict[str, str]):
-    rhs_diff = hs_difference(frame1.get("rhs"), frame2.get("rhs"))
-    lhs_diff = hs_difference(frame1.get("lhs"), frame2.get("lhs"))
-    hs_diff = rhs_diff if lhs_diff is None else lhs_diff if rhs_diff is None else min(rhs_diff + lhs_diff, 3)
+def mod_difference(mod1: str, mod2: str):
+    if mod1 == mod2: return 0
+    if mod1 is None or mod2 is None: return 2
+    return 1
+
+def frame_difference(frame1: dict[str, str], frame2: dict[str, str], allow_hooks: bool = False):
+    rhs_diff = hs_difference(frame1.get("rhs"), frame2.get("rhs"), allow_hooks)
+    lhs_diff = hs_difference(frame1.get("lhs"), frame2.get("lhs"), allow_hooks)
+    same_hs = frame1.get("rhs") == frame1.get("lhs") or frame2.get("rhs") == frame2.get("lhs")
+    mod_diff = mod_difference(frame1.get("mod"), frame2.get("mod"))
+    hs_diff = (
+        (max(rhs_diff, lhs_diff) if same_hs
+         else rhs_diff if lhs_diff is None
+         else lhs_diff if rhs_diff is None
+         else rhs_diff + lhs_diff
+        ) + mod_diff
+    )
+    hs_diff = min(hs_diff, 3)
     loc1 = frame1.get("bloc", frame1.get("hloc"))
     loc2 = frame2.get("bloc", frame2.get("hloc"))
     loc_diff = 0 if loc1 == loc2 else loc_difference(loc1, loc2) + 1
@@ -63,17 +84,29 @@ def sign_difference(sign1: str, sign2: str):
     if len(fr1) == len(fr2) == 1:
         hs_diff, loc_diff = frame_difference(fr1[0], fr2[0])
         return min(hs_diff + loc_diff, 3)
-    if len(fr1) < len(fr2): fr1 += fr1
-    elif len(fr1) > len(fr2): fr2 += fr2
-    diff1 = 0
-    diff2 = 0
-    def multiframe_frame_diff(f1, f2):
-        hs_diff, loc_diff = frame_difference(f1, f2)
+    def lengthen_framelist(frames: list[dict], upto: int):
+        new = []
+        for f in frames:
+            new.append(f)
+            f = f.copy()
+            if f.pop("mod", None): new.append(f)
+        if len(new) >= upto: return new
+        else: return new + new
+    if len(fr1) < len(fr2): fr1 = lengthen_framelist(fr1, len(fr2))
+    elif len(fr1) > len(fr2): fr2 = lengthen_framelist(fr2, len(fr1))
+    def multiframe_frame_diff(f1, f2, allow_hooks):
+        hs_diff, loc_diff = frame_difference(f1, f2, allow_hooks)
         if hs_diff == 2: hs_diff = 1
         return min(hs_diff + loc_diff, 3)
-    for f1, f2 in zip(fr1, fr2):
-        diff1 = max(diff1, multiframe_frame_diff(f1, f2))
+    def frame_seq_diff(fseq1: list[dict], fseq2: list[dict]):
+        hooks = False
+        diff = 0
+        for f1, f2 in zip(fseq1, fseq2):
+            diff = max(diff, multiframe_frame_diff(f1, f2, hooks))
+            if f1.get("mod") or f2.get("mod"): hooks = True
+            else: hooks = False
+        return diff
+    diff1 = frame_seq_diff(fr1, fr2)
     fr1.reverse()
-    for f1, f2 in zip(fr1, fr2):
-        diff2 = max(diff2, multiframe_frame_diff(f1, f2))
+    diff2 = frame_seq_diff(fr1, fr2)
     return min(diff1, diff2)
