@@ -5,11 +5,18 @@ from .loc.load_diff import loc_difference
 from .regexes import *
 
 @lru_cache
-def sign_data(sign: str):
+def sign_data(sign: str, log: bool = False):
+    if log: print(sign)
     two_handed = (re.findall(SECOND_HAND, sign) or [""])[0]
     frames = [parse_frame(f) for f in re.findall(FRAME, sign)]
     timeline = "".join(re.findall(fr"{MOV}|{CONT}", sign))
+    if log: print(frames, timeline)
     comps = ["hs", "ori"]
+    for c in comps:
+        last = None
+        for f in frames:
+            if "r"+c in f: last = f["r"+c]
+            elif last: f["r"+c] = last
     if "Я" in two_handed:
         for c in comps:
             r = {f["r"+c] for f in frames}
@@ -26,11 +33,10 @@ def sign_data(sign: str):
                 if "l"+c in f: continue
                 if f["r"+c] == r1: f["l"+c] = l2
                 else: f["l"+c] = l1
-        return
     elif two_handed == "09":
         for c in comps:
             for f in frames:
-                if "l"+c not in f: f["l"+c] = f["r"+c][::-1]
+                if "l"+c not in f and "r"+c in f: f["l"+c] = f["r"+c][::-1]
     last_frame = {}
     frames = [(last_frame := last_frame | f) for f in frames]
     return frames, timeline
