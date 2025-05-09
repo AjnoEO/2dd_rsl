@@ -1,6 +1,6 @@
 {% extends "search_base.html" %}
 
-
+{% from "macros.html" import keep_newlines %}
 
 {% block window %}
 <h4>
@@ -21,7 +21,9 @@
                 <div><a href="?query={{lexeme.lemma|urlencode}}&exact" class="link">Ссылка на этот результат</a></div>
                 {% if lexeme.sources -%}
                     {%- if lexeme.sources.single -%}
-                    <div><a class="link" href="{{lexeme.sources.url}}">Источник: {{lexeme.sources.root}}</a></div>
+                    <div><a class="link" href="{{lexeme.sources.url}}" target="_blank" rel="noopener">
+                        Источник: {{lexeme.sources.root}}
+                    </a></div>
                     {%- elif lexeme.sources|length == 1 -%}
                     {%- for source, urls in lexeme.sources|items %}
                     <details>
@@ -79,7 +81,7 @@
                                 {% for row in lexeme.inflection %}
                                 <tr>
                                     <td class="right-align right-padding"><strong>{{row.title}}</strong></td>
-                                    <td class="rsl bottom-padding">{{row.value}}</td>
+                                    <td class="rsl bottom-padding">{{keep_newlines(row.value)}}</td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
@@ -96,7 +98,7 @@
                                     <td class="right-align right-padding"><strong>{{row.title}}</strong></td>
                                     {% for value in row.columns %}
                                         {% if value %}
-                                        <td class="rsl bottom-padding center-align">{{value}}</td>
+                                        <td class="rsl bottom-padding center-align">{{keep_newlines(value)}}</td>
                                         {% else %}
                                         <td class="surface-variant center-align">&mdash;</td>
                                         {% endif %}

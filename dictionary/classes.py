@@ -32,7 +32,9 @@ class Lexeme:
         for word in rows.itertuples(index=False):
             if word.Lemma is np.nan: continue
             cat_val: list[str] = sorted(word.GrammarMeaning.split(";"))
-            catval_to_word[";".join(cat_val)] = word.RSL
+            catval_str = ";".join(cat_val)
+            current = catval_to_word.get(catval_str)
+            catval_to_word[catval_str] = ((current + "\n") if current else "") + word.RSL
             cat_val: dict[str, str] = dict([tuple(cv.split(":")) for cv in cat_val])
             if not categories:
                 categories = {cat: {val} for cat, val in cat_val.items()}

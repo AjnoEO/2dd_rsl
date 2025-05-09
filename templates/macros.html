@@ -1,0 +1,5 @@
+{% macro keep_newlines(text) -%}
+{% for line in text.split("\n") -%}
+{% if not loop.first %}<br>{% endif %}{{line}}
+{%- endfor %}
+{%- endmacro %}
