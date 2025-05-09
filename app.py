@@ -2,10 +2,13 @@ from flask import Flask, g, abort, render_template, redirect, url_for, request, 
 import re
 from functools import wraps
 import dictionary as d
-from security import FLASK_SECRET_KEY, check_password
+from security import FLASK_SECRET_KEY, IS_PRODUCTION, check_password
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 app = Flask(__name__)
 app.secret_key = FLASK_SECRET_KEY
+if IS_PRODUCTION:
+    app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
 
 @app.template_filter()
 def url_root(s: str):
