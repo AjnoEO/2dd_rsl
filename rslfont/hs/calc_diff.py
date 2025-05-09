@@ -43,7 +43,6 @@ def __helper_difference(hs1_tuple: HSTuple, hs2_tuple: HSTuple, log: bool = Fals
         3 if not (same_base or similar_base)
         else 0 if selected_diff == 0
         else 1 if selected_diff == 1 and (hs1[0].bit_count() != 0) and (hs2[0].bit_count() != 0)
-        else 1 if {hs1[0], hs2[0]} == {0b1111, 0b0011} or {hs1[0], hs2[0]} == {0b0000, 0b1100}
         else 3
     )
     if log:
