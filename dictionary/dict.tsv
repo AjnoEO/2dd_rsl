@@ -54,5 +54,21 @@ RSL	Russian	Sources	Example_RSL	Example_Russian	Example_sources	Lemma	GrammarMea
 95.0".ЦЦ".3ББ	80;восемьдесят						
 95.0".ЦЦ".8ББ	80;восемьдесят	https://signflow.ru/80					
 95.0".ЦЦ".4ББ	90;девяносто	https://signflow.ru/90					
-1?х	100;сто	https://signflow.ru/100					
-2??Л	200;двести	https://signflow.ru/200					
+".1?х	100;сто	https://signflow.ru/100					
+".2??Л	200;двести	https://signflow.ru/200					
+(Й..)Ц."ВЬ	утро	https://signflow.ru/utro					
+5ЁЖЖЁ5_ж09	день	https://signflow.ru/den					
+9.в0С.-**-.С__	вечер	https://signflow.ru/vecher					
+5".(ЁЙЁ)."5(ДЬ)	ночь						
+в%ЁЦЦ.Жа__	зима	https://signflow.ru/zima					
+вЁ-*-ЁвЮЁЭж09	весна	https://signflow.ru/vesna					
+вЁ-*-ЁвЮЁЭж09	растаять;таять	https://signflow.ru/rastayat					
+(.)*Ж.вЬ(Ё)*	лето	https://signflow.ru/leto					
+(Й..)*.Эо//Ё%	осень	https://signflow.ru/osen					
+.Э7??Ч	понедельник	https://signflow.ru/ponedelnik					
+."вББ.Э	вторник	https://signflow.ru/vtornik					
+.Э7??э	среда	https://signflow.ru/sreda					
+-.чЗЗ=Ё	четверг	https://spreadthesign.ru/434					
+.Ж2??	пятница	https://spreadthesign.ru/435					
+.ЖуБЮБ	суббота	https://signflow.ru/subbota					
+."А//	воскресенье	https://spreadthesign.ru/437					
