@@ -10,7 +10,7 @@
     </span>
 </h4>
 <div class="vertical-margin">
-{% for lexeme in results %}
+{% for lexeme, citation_form_is_result in results %}
     {% if not loop.first -%}
     <hr class="medium">
     {%- endif %}
@@ -57,7 +57,14 @@
                     {%- endif -%}
                 {%- endif %}
                 {% if lexeme.inflection -%}
-                    <div><a class="link" href="#" data-ui="#inflection{{loop.index}}">Формы&hellip;</a></div>
+                    <div>
+                        <a class="link" href="#" data-ui="#inflection{{loop.index}}">
+                            Формы&hellip;
+                            {% if not citation_form_is_result -%}
+                            <i class="small error-text">keyboard_double_arrow_left</i>
+                            {%- endif %}
+                        </a>
+                    </div>
                     <dialog id="inflection{{loop.index}}">
                         <button class="transparent circle absolute right top small-margin" data-ui="#inflection{{loop.index}}">
                             <i>close</i>

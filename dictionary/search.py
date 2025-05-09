@@ -5,11 +5,15 @@ from .classes import Lexeme
 
 def lexemes_from_relevant_rows(results: pd.DataFrame):
     results.fillna({"Lemma": results["RSL"]}, inplace=True)
-    lemmas = results["Lemma"].drop_duplicates()
-    search_results = [Lexeme(DICT[(DICT["Lemma"] == lemma) | (DICT["RSL"] == lemma)]) for lemma in lemmas]
+    lemmas = results[["RSL", "Lemma"]].drop_duplicates("Lemma")
+    print(lemmas)
+    search_results = [
+        (Lexeme(DICT[(DICT["Lemma"] == lemma) | (DICT["RSL"] == lemma)]), bool(word == lemma)) 
+        for (word, lemma) in lemmas.itertuples(index=False)]
     return search_results
 
 def search_for_lexemes(query: str, exact: bool = False):
+    """Возвращает список кортежей (*Лемма*, [является ли нач. форма результатом поиска])"""
     if exact:
         results = DICT[DICT["RSL"] == query]
     else:
