@@ -72,3 +72,25 @@ RSL	Russian	Sources	Example_RSL	Example_Russian	Example_sources	Lemma	GrammarMea
 .Ж2??	пятница	https://spreadthesign.ru/435					
 .ЖуБЮБ	суббота	https://signflow.ru/subbota					
 ."А//	воскресенье	https://spreadthesign.ru/437					
+.Ж3Ю	минута	https://signflow.ru/minuta https://spreadthesign.ru/1648					
+."1(Д_)	час (промежуток времени)	https://signflow.ru/chas					
+."1_=Ё	час (промежуток времени)	https://spreadthesign.ru/1618					
+о%ЁЁ%о(Д/)Я	сутки;суточный						
+".6Б	неделя	https://signflow.ru/nedelya					
+(.)*.Э6Ь(Ё)*	месяц	https://signflow.ru/mesyats					
+(Ё)*.Э6_(.)*	месяц						
+(Ё)*.Э6_(.)*						(Ё)*.Э6_(.)*	N:один
+(Ё)*.Э1_(.)*						(Ё)*.Э6_(.)*	N:один
+(Ё)*.Э7_(.)*						(Ё)*.Э6_(.)*	N:два
+(Ё)*.Э2_(.)*						(Ё)*.Э6_(.)*	N:два
+(Ё)*.Э8_(.)*						(Ё)*.Э6_(.)*	N:три
+(Ё)*.Э4_(.)*						(Ё)*.Э6_(.)*	N:четыре
+(Ё)*.Э5_(.)*						(Ё)*.Э6_(.)*	N:пять
+(.).Э6(ДЬ)	год (момент времени, единица измерения)	https://signflow.ru/god					
+(.)*.Э5??	лет;год (промежуток времени)						
+(.)*.Э5??	время	https://spreadthesign.ru/454 https://signflow.ru/vremya					
+(.)*.Э1/						(.)*.Э5??	N:один год
+(.)*.Э2/						(.)*.Э5??	N:два года
+(.)*.Э8/						(.)*.Э5??	N:три года
+(.)*.Э4/						(.)*.Э5??	N:четыре года
+(.)*.Э5/						(.)*.Э5??	N:пять лет
