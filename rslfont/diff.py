@@ -59,9 +59,9 @@ def frame_difference(frame1: dict[str, str], frame2: dict[str, str], allow_hooks
     same_hs = frame1.get("rhs") == frame1.get("lhs") or frame2.get("rhs") == frame2.get("lhs")
     mod_diff = mod_difference(frame1.get("mod"), frame2.get("mod"))
     hs_diff = (
-        (max(rhs_diff, lhs_diff) if same_hs
-         else rhs_diff if lhs_diff is None
+        (rhs_diff if lhs_diff is None
          else lhs_diff if rhs_diff is None
+         else max(rhs_diff, lhs_diff) if same_hs
          else rhs_diff + lhs_diff
         ) + mod_diff
     )
