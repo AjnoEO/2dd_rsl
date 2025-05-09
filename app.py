@@ -55,6 +55,7 @@ def edit():
 
 @app.route("/edit/login", methods=["GET", "POST"])
 def editor_login():
+    if session.get("editor"): return redirect(request.args.get("next") or url_for("edit"))
     error = None
     if request.method == 'POST':
         if check_password(request.form["password"]):
@@ -102,25 +103,6 @@ def create_word():
 @login_required
 def edit_word(word_index: int):
     return word_form(word_index)
-    errors = {}
-    if word_index not in d.DICT.index:
-        abort(404, "Запись в словаре с таким ID не найдена.")
-    if request.method == 'POST':
-        form_dict = {k: v for k, v in request.form.items() if v}
-        d.DICT.loc[word_index] = form_dict
-        d.update_dict()
-        return redirect(url_for("edit_word", word_index=word_index))
-    fieldsets = {
-        "Слово": [("RSL", "РЖЯ"), ("Russian", "Русский"), ("Sources", "Источники")],
-        "Пример": [("Example_RSL", "На РЖЯ"), ("Example_Russian", "На русском"), ("Example_sources", "Источники")],
-        "Грамматика": [("Lemma", "Лемма"), ("GrammarMeaning", "Грамматические значения")]
-    }
-    rsl_fields = ["RSL", "Lemma", "Example_RSL"]
-    current = d.DICT.loc[word_index].dropna()
-    return render_template(
-        "word_form.html", 
-        word_index=word_index, fieldsets=fieldsets, rsl_fields=rsl_fields, current=current, errors=errors
-    )
 
 @app.post("/edit/delete/<int:word_index>")
 @login_required
