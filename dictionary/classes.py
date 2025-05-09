@@ -6,7 +6,7 @@ class UntreatableLexemeException(Exception): ...
 
 class Lexeme:
     def __init__(self, rows: pd.DataFrame):
-        head = rows[rows["Lemma"].isna() | (rows["RSL"] == rows["Lemma"])]
+        head = rows[rows["Lemma"].isna()]
         lemma, translations, sources = (head[col] for col in ["RSL", "Russian", "Sources"])
         self.lemma: str = lemma.iloc[0]
         self.translations: list[list[str]] = [t.split(";") for t in translations]
