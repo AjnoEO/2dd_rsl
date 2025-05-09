@@ -27,8 +27,10 @@
         </div>
     </fieldset>
     {%- endfor %}
-    <div class="top-margin">
+    <div class="row top-margin">
         <input class="button" type="submit" value="Сохранить">
+        {% if current %}<a href="{{url_for('create_word')}}" class="border button">Новая запись</a>{% endif %}
+        <a href="{{url_for('edit')}}" class="border button">К списку записей</a>
     </div>
 </form>
 {% endblock content %}
