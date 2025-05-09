@@ -1,4 +1,3 @@
-selected: The selected finger(s) (index to pinky from 2 to 5; 0 if none)
-closed, hook, forward, straight: Are there fingers with this positioning (-1 for neutral fingers, 1 for selected fingers)
-dispersed: Are the fingers dispersed or touching each other side by side (0 if N/A)
-thumb: The thumb positioning (0 = touching, 1 = over, 2 = forward, 3 = side, 5 = adjacent)
+2 — сильно похожи
+1 — достаточно похожи (счит. что сильно похожи при жесте с изменением конфигурации)
+направленное ребро — сгибание пальцев
