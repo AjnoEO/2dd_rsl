@@ -8,16 +8,27 @@
     <div class="s12 m8 center">
         <form class="search" data-live="false" id="search" action="/search" accept-charset="UTF-8" method="get">
             <nav class="no-space">
-                <div class="rsl field max border no-space left-round">
-                    <input type="text" class="keyword rsl" name="query" id="query" value="{{query}}" tabindex="1" lang="ru" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="55ДЯ ИИ??З)">
+                <div class="field max border no-space left-round">
+                    <input type="text" name="query" id="input" value="{{query}}" tabindex="1" lang="ru" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="Введите слово">
                 </div>
-                <button type="submit" class="large right-round" tabindex="2"><i>search</i></button>
+                <button type="button" class="l large no-round" tabindex="2" onclick="switchInputLanguage()">
+                    <h6 class="switch_language_icon">Я</h6>
+                </button>
+                <button type="button" class="s m large horizontal-padding small-padding no-round" tabindex="2" onclick="switchInputLanguage()">
+                    <h6 class="switch_language_icon">Я</h6>
+                </button>
+                <button type="submit" class="l large right-round" tabindex="3"><i>search</i></button>
+                <button type="submit" class="s m large horizontal-padding small-padding right-round" tabindex="3"><i>search</i></button>
             </nav>
+            <input type="hidden" id="translations" name="translations" value="true">
+            {% if "translations" not in request.args %}
+            <div id="rsl" hidden></div>
+            {% endif %}
         </form>
     </div>
     <div class="m2"></div>
 </div>
-<div class="medium-space"></div>
+<div class="m l medium-space"></div>
 <div class="content">
     {% block window %}{% endblock window %}
 </div>

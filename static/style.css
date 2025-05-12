@@ -3,6 +3,10 @@
     font-size: x-large;
 }
 
+.field>input {
+    font-size: large;
+}
+
 .rsl.compact {
     font-size: large;
 }

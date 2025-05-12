@@ -1,4 +1,4 @@
-from flask import Flask, g, abort, render_template, redirect, url_for, request, session
+from flask import Flask, abort, render_template, redirect, url_for, request, session
 import re
 from functools import wraps
 import dictionary as d
@@ -47,9 +47,14 @@ def index():
 def search():
     query = request.args.get("query")
     exact = "exact" in request.args
+    translations = "translations" in request.args
     if not query:
         return redirect(url_for("index"))
-    return render_template("search.html", query=query, results=d.search_for_lexemes(query, exact=exact))
+    if translations:
+        results = d.search_for_translations(query)
+    else:
+        results = d.search_for_lexemes(query, exact=exact)
+    return render_template("search.html", query=query, results=results)
 
 @app.route("/edit/")
 @login_required

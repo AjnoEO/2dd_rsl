@@ -4,7 +4,7 @@
 
 {% block window %}
 <h4>
-    <span class="rsl">{{query}}</span>
+    <span class="{% if 'translations' not in request.args %}rsl{% endif %}">{{query}}</span>
     <span class="large-text secondary-text">
         &mdash; {{results|length|number_decline('результат', 'результата', 'результатов')}}
     </span>
