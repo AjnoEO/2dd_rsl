@@ -1,6 +1,12 @@
 .rsl, .field>.rsl {
     font-family: RSL-Font;
     font-size: x-large;
+    vertical-align: text-bottom;
+}
+
+.giant {
+    font-size: x-large;
+    vertical-align: sub;
 }
 
 .rsl.compact {
