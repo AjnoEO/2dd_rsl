@@ -13,7 +13,8 @@ for loc, linked in data.items():
         for l_loc in linked_locs:
             if l_loc not in locs: locs.append(l_loc)
 
-table = (np.ones((len(locs), len(locs)))-np.identity(len(locs)))*2
+n = len(locs)
+table = (np.ones((n, n))-np.identity(n))*2
 table = table.astype(np.int8)
 df = pd.DataFrame(table, index=locs, columns=locs)
 

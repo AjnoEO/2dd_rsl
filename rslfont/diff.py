@@ -1,7 +1,9 @@
 import re
-from functools import lru_cache
+from typing import Callable
+from functools import lru_cache, partial
 from .hs.load_diff import hs_difference
 from .loc.load_diff import loc_difference
+from .ori.load_diff import ori_difference
 from .regexes import *
 
 @lru_cache
@@ -53,23 +55,26 @@ def mod_difference(mod1: str, mod2: str):
     if mod1 is None or mod2 is None: return 2
     return 1
 
+def hands_difference(
+        comp: str, frame1: dict[str, str], frame2: dict[str, str], 
+        diff_func: Callable[[str, str], int | None], l_args: dict = {}) -> int:
+    r1, r2 = frame1.get("r"+comp) or "", frame2.get("r"+comp) or ""
+    l1, l2 = frame1.get("l"+comp) or "", frame2.get("l"+comp) or ""
+    rh_diff, lh_diff = diff_func(r1, r2), diff_func(l1, l2, **l_args)
+    same = r1 == l2[::-1] or r2 == l2[::-1]
+    return rh_diff if lh_diff is None else lh_diff if rh_diff is None else min(rh_diff, lh_diff) if same else rh_diff + lh_diff
+
 def frame_difference(frame1: dict[str, str], frame2: dict[str, str], allow_hooks: bool = False):
-    rhs_diff = hs_difference(frame1.get("rhs"), frame2.get("rhs"), allow_hooks)
-    lhs_diff = hs_difference(frame1.get("lhs"), frame2.get("lhs"), allow_hooks)
-    same_hs = frame1.get("rhs") == frame1.get("lhs") or frame2.get("rhs") == frame2.get("lhs")
+    hs_diff = hands_difference("hs", frame1, frame2, partial(hs_difference, allow_hooks=allow_hooks))
     mod_diff = mod_difference(frame1.get("mod"), frame2.get("mod"))
-    hs_diff = (
-        (rhs_diff if lhs_diff is None
-         else lhs_diff if rhs_diff is None
-         else max(rhs_diff, lhs_diff) if same_hs
-         else rhs_diff + lhs_diff
-        ) + mod_diff
-    )
-    hs_diff = min(hs_diff, 3)
+    hs_diff = min(hs_diff + mod_diff, 3)
+
+    ori_diff = hands_difference("ori", frame1, frame2, ori_difference, l_args={"hand": "l"}) or 0
+
     loc1 = frame1.get("bloc", frame1.get("hloc"))
     loc2 = frame2.get("bloc", frame2.get("hloc"))
     loc_diff = 0 if loc1 == loc2 else loc_difference(loc1, loc2) + 1
-    return hs_diff, loc_diff
+    return hs_diff, ori_diff, loc_diff
 
 def sign_difference(sign1: str, sign2: str):
     """
@@ -82,8 +87,8 @@ def sign_difference(sign1: str, sign2: str):
     fr1, tl1 = sign_data(sign1)
     fr2, tl2 = sign_data(sign2)
     if len(fr1) == len(fr2) == 1:
-        hs_diff, loc_diff = frame_difference(fr1[0], fr2[0])
-        return min(hs_diff + loc_diff, 3)
+        hs_diff, ori_diff, loc_diff = frame_difference(fr1[0], fr2[0])
+        return min(hs_diff + ori_diff + loc_diff, 3)
     def lengthen_framelist(frames: list[dict], upto: int):
         new = []
         for f in frames:
@@ -95,9 +100,10 @@ def sign_difference(sign1: str, sign2: str):
     if len(fr1) < len(fr2): fr1 = lengthen_framelist(fr1, len(fr2))
     elif len(fr1) > len(fr2): fr2 = lengthen_framelist(fr2, len(fr1))
     def multiframe_frame_diff(f1, f2, allow_hooks):
-        hs_diff, loc_diff = frame_difference(f1, f2, allow_hooks)
+        hs_diff, ori_diff, loc_diff = frame_difference(f1, f2, allow_hooks)
         if hs_diff == 2: hs_diff = 1
-        return min(hs_diff + loc_diff, 3)
+        if ori_diff == 2: ori_diff = 1
+        return hs_diff + ori_diff + loc_diff
     def frame_seq_diff(fseq1: list[dict], fseq2: list[dict]):
         hooks = False
         diff = 0
@@ -108,5 +114,5 @@ def sign_difference(sign1: str, sign2: str):
         return diff
     diff1 = frame_seq_diff(fr1, fr2)
     fr1.reverse()
-    diff2 = frame_seq_diff(fr1, fr2)
-    return min(diff1, diff2)
+    diff2 = frame_seq_diff(fr1, fr2) + 1
+    return min(diff1, diff2, 3)

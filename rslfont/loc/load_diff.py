@@ -11,7 +11,7 @@ def uniform_loc(loc: str):
     if "Й" in loc: return None
     return re.sub(HS, 'h', loc)
 
-def loc_difference(loc1: str, loc2: str):
+def loc_difference(loc1: str, loc2: str) -> int:
     """
     Разница между локализациями
     - `0`: отсутствует или пренебрежимо мала
