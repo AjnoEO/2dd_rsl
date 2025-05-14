@@ -3,6 +3,7 @@ from typing import Callable
 from functools import lru_cache, partial
 from .hs.load_diff import hs_difference
 from .loc.load_diff import loc_difference
+from .mov.load_diff import mov_difference
 from .ori.load_diff import ori_difference
 from .regexes import *
 
@@ -86,9 +87,10 @@ def sign_difference(sign1: str, sign2: str):
     """
     fr1, tl1 = sign_data(sign1)
     fr2, tl2 = sign_data(sign2)
+    mov_diff = mov_difference(tl1, tl2)
     if len(fr1) == len(fr2) == 1:
         hs_diff, ori_diff, loc_diff = frame_difference(fr1[0], fr2[0])
-        return min(hs_diff + ori_diff + loc_diff, 3)
+        return min(hs_diff + ori_diff + loc_diff + mov_diff, 3)
     def lengthen_framelist(frames: list[dict], upto: int):
         new = []
         for f in frames:
@@ -112,7 +114,7 @@ def sign_difference(sign1: str, sign2: str):
             if f1.get("mod") or f2.get("mod"): hooks = True
             else: hooks = False
         return diff
-    diff1 = frame_seq_diff(fr1, fr2)
+    diff1 = frame_seq_diff(fr1, fr2) + mov_diff
     fr1.reverse()
-    diff2 = frame_seq_diff(fr1, fr2) + 1
+    diff2 = frame_seq_diff(fr1, fr2) + mov_diff + 1
     return min(diff1, diff2, 3)

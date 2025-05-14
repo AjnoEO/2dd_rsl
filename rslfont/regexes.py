@@ -17,6 +17,7 @@ LEFT_HAND = (
 )
 RIGHT_HAND = fr"(?:(?:(?P<rori>{ORI})?(?:(?P<rhs>{HS}){HANDLOC}?)|(?P<rori>{ORI}))(?P<mod>{MOD})?)"
 
+ROUND_MOV = fr"(?:Д|\(Д{DIR}\))"
 MOV = fr"(?:{DIR}+|(?:{DIR}*ДД?{DIR}*|[/З\\Щ])(?:\({FING}\))?|\(Д{DIR}\))"
 
 FRAME = fr"(?:{BODYLOC}|{HANDLOC}|{CONT}|{ORI}|{HS})+{MOD}?"
