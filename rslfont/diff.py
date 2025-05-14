@@ -58,10 +58,10 @@ def mod_difference(mod1: str, mod2: str):
 def hands_difference(
         comp: str, frame1: dict[str, str], frame2: dict[str, str], 
         diff_func: Callable[[str, str], int | None], l_args: dict = {}) -> int:
-    r1, r2 = frame1.get("r"+comp) or "", frame2.get("r"+comp) or ""
-    l1, l2 = frame1.get("l"+comp) or "", frame2.get("l"+comp) or ""
+    r1, r2 = frame1.get("r"+comp), frame2.get("r"+comp)
+    l1, l2 = frame1.get("l"+comp), frame2.get("l"+comp)
     rh_diff, lh_diff = diff_func(r1, r2), diff_func(l1, l2, **l_args)
-    same = r1 == l2[::-1] or r2 == l2[::-1]
+    same = l1 and l2 and (r1 == l1[::-1] and r2 == l2[::-1])
     return rh_diff if lh_diff is None else lh_diff if rh_diff is None else min(rh_diff, lh_diff) if same else rh_diff + lh_diff
 
 def frame_difference(frame1: dict[str, str], frame2: dict[str, str], allow_hooks: bool = False):
