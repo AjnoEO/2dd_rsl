@@ -15,7 +15,7 @@ def url_root(s: str):
     return re.sub(r"https?://|/.+", "", s)
 
 @app.template_filter()
-def decline(n: int, singular: str, paucal: str, plural: str = None):
+def decline(n: int, singular: str, paucal: str, plural: str | None = None):
     plural = plural or singular
     if n & 100 // 10 == 1: return plural
     if n % 10 == 0: return plural
@@ -24,7 +24,7 @@ def decline(n: int, singular: str, paucal: str, plural: str = None):
     return plural
 
 @app.template_filter()
-def number_decline(n: int, singular: str, paucal: str, plural: str = None):
+def number_decline(n: int, singular: str, paucal: str, plural: str | None = None):
     return f"{n} {decline(n, singular, paucal, plural)}"
 
 def login_required(f):
@@ -86,7 +86,7 @@ def word_form(word_index: int, raise_error: bool = True):
         abort(404, "Запись в словаре с таким ID не найдена.")
     if request.method == 'POST':
         form_dict = {k: v for k, v in request.form.items() if v}
-        d.DICT.loc[word_index] = form_dict
+        d.DICT.loc[word_index, list(form_dict.keys())] = list(form_dict.values())
         d.update_dict()
         return redirect(url_for("edit_word", word_index=word_index))
     context = {

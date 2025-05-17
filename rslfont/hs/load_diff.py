@@ -5,7 +5,7 @@ import numpy as np
 HS_DIFF = pd.read_csv(os.path.join("rslfont", "hs", "diff.tsv"), sep="\t", index_col="HS").astype(np.int8)
 HOOKS = pd.read_csv(os.path.join("rslfont", "hs", "hooks.tsv"), sep="\t", index_col=0, header=None, dtype="str")[1].to_dict()
 
-def hs_difference(hs1: str, hs2: str, allow_hooks: bool = False):
+def hs_difference(hs1: str, hs2: str, allow_hooks: bool = False) -> int | None:
     """
     Разница между конфигурациями
     - `None`: hs1 и hs2 — None

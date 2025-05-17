@@ -6,7 +6,7 @@ from ..regexes import ROUND_MOV, CONT
 with open(os.path.join("rslfont", "mov", "planes.json"), encoding="utf8") as f:
     PLANES: dict[str, list[str]] = json.load(f)
 
-def __get_planes_rounds(mov: str) -> set[str]:
+def __get_planes_rounds(mov: str) -> tuple[set[str], set[str]]:
     result = set()
     for plane, orthos in PLANES.items():
         for orth in orthos:
