@@ -20,10 +20,12 @@
             {% if session.editor -%}
             <a class="button margin circle transparent" href="{{ url_for('index') }}"><i class="large">home</i></a>
             {%- endif %}
-            <div class="max center-align vertical-margin">
-                <h3>2сс РЖЯ<span class="m l"> &mdash; </span><br class="s"><span class="rsl">2cc ржя</span></h3>
-                <h5 class="m l no-margin">Двусторонний словарь русского жестового языка</h5>
-            </div>
+            <a class="max center-align vertical-margin" href="{{ url_for('index') }}">
+                <div>
+                    <h3>2сс РЖЯ<span class="m l"> &mdash; </span><br class="s"><span class="rsl">2cc ржя</span></h3>
+                    <h5 class="m l no-margin">Двусторонний словарь русского жестового языка</h5>
+                </div>
+            </a>
             {% if session.editor -%}
             {%- with -%}
                 {%- if request.path[:5] == "/edit" -%}
