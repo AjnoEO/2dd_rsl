@@ -1,0 +1,31 @@
+{% extends "error_inline_base.html" %}
+
+{% block error_description %}
+<p>
+    <strong>Ошибка 403:</strong>
+    Не удалось распознать жест.
+    {% if error.kwargs -%}
+        {% for key, text in error.kwargs.items() -%}
+            {% if key.endswith("rsl") -%}
+                <span class="rsl">{{text}}</span>
+            {%- else -%}
+                {{text}}
+            {%- endif %}
+        {%- endfor %}
+    {%- elif error.args -%}
+        {% if error.args|length == 1 -%}
+            {{error.args|first}}
+        {%- else -%}
+            <ul>
+            {%- for arg in error.args %}
+            <li>{{arg}}</li>
+            {% endfor -%}
+            </ul>
+        {%- endif %}
+    {%- endif %}
+</p>
+<p>
+    Чтобы ознакомиться с системой записи жестов, использующейся в этом словаре, посетите сайте
+    <em><a class="link" href="http://ajnoeo.github.io/rslfont" target="_blank" rel="noopener noreferrer">Шрифт РЖЯ</a></em>.
+</p>
+{% endblock error_description %}

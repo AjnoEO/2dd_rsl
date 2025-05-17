@@ -36,6 +36,11 @@ def __distinguish_groups(regexp: str):
 def __remove_groupdict_nums(groups: dict[str, str]):
     return {re.sub("\d+$", "", k): v for k, v in groups.items() if v}
 
+class FrameParsingError(Exception):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, *kwargs.values())
+        self.kwargs = kwargs
+
 def parse_frame(frame: str):
     exp = (
         fr"^(?:(?P<bloc>{BODYLOC})?(?P<cont>{CONT}*){RIGHT_HAND}|"
@@ -45,7 +50,7 @@ def parse_frame(frame: str):
     )
     exp = __distinguish_groups(exp)
     match = re.match(exp, frame)
-    if not match: raise ValueError(f"Could not parse '{frame}' as a frame")
+    if not match: raise FrameParsingError(text1="Не удалось проанализировать ", text2_rsl=frame, text3=" как фрейм")
     return __remove_groupdict_nums(match.groupdict())
 
 if __name__ == "__main__":

@@ -2,6 +2,7 @@ from flask import Flask, abort, render_template, redirect, url_for, request, ses
 import re
 from functools import wraps
 import dictionary as d
+from rslfont import FrameParsingError
 from security import FLASK_SECRET_KEY, IS_PRODUCTION, check_password
 from werkzeug.middleware.proxy_fix import ProxyFix
 
@@ -38,6 +39,10 @@ def login_required(f):
 @app.errorhandler(404)
 def page_not_found(error: Exception):
     return render_template("error_404.html", error=error), 404
+
+@app.errorhandler(FrameParsingError)
+def frame_parsing_error(error: FrameParsingError):
+    return render_template("error_400_parse_frame.html", error=error, query=request.args.get("query")), 400
 
 @app.route("/")
 def index():

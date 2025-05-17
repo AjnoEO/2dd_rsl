@@ -1,0 +1,17 @@
+<p>
+    <strong>Ошибка{% if error_code %} {{error_code}}{% endif %}:</strong>
+    {% if error.args -%}
+        {% if error.args|length == 1 -%}
+            {{error.args|first}}
+        {%- else -%}
+            <ul>
+            {%- for arg in error.args %}
+            <li>{{arg}}</li>
+            {% endfor -%}
+            </ul>
+        {%- endif %}
+    {%- else -%}
+    Что-то пошло не так. Сообщите об ошибке Артёму Бойко
+    (телеграм: <a class="link" href="https://t.me/ajnoEO" target="_blank" rel="noopener">@ajnoEO</a>)
+    {%- endif %}
+</p>
