@@ -52,6 +52,7 @@ def mov_difference(mov1: str, mov2: str):
         if rounds1 == rounds2: return 1
         if rounds1 & rounds2: return 2
         return 3
+    if len(planes1) + len(planes2) >= 5: return 0
     if planes1 & planes2:
         if __opposite_dirs(mov1, mov2): return 3
         return 1

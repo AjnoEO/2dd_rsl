@@ -12,7 +12,7 @@ def sign_data(sign: str, log: bool = False):
     if log: print(sign)
     two_handed = (re.findall(SECOND_HAND, sign) or [""])[0]
     frames = [parse_frame(f) for f in re.findall(FRAME, sign)]
-    timeline = "".join(re.findall(fr"{MOV}|{CONT}", sign))
+    timeline = "".join(re.findall(fr"{MOV}|{MOD}|{CONT}", sign))
     if log: print(frames, timeline)
     hand_comps = ["hs", "ori"]
     def fill_in_comp(comp: str):
@@ -114,7 +114,8 @@ def sign_difference(sign1: str, sign2: str):
             if f1.get("mod") or f2.get("mod"): hooks = True
             else: hooks = False
         return diff
+    print(mov_diff)
     diff1 = frame_seq_diff(fr1, fr2) + mov_diff
-    fr1.reverse()
+    fr1 == fr1[::-1]
     diff2 = frame_seq_diff(fr1, fr2) + mov_diff + 1
     return min(diff1, diff2, 3)
