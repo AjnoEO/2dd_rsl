@@ -44,6 +44,10 @@ def page_not_found(error: Exception):
 def frame_parsing_error(error: FrameParsingError):
     return render_template("error_400_parse_frame.html", error=error, query=request.args.get("query")), 400
 
+@app.route('/favicon.ico')
+def favicon():
+    return url_for('static', filename='favicon.ico')
+
 @app.route("/")
 def index():
     return render_template("index.html")
